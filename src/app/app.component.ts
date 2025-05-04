@@ -3,9 +3,10 @@ import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
+  standalone: true, // 👈 Aquí declaramos que es standalone
   imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css'] // 👈 Aquí corregimos "styleUrls"
 })
 export class AppComponent {
   title = 'front-plataforma-educativa';

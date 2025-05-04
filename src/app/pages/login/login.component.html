@@ -1,0 +1,49 @@
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600">
+    <div
+      class="bg-white p-10 rounded-xl shadow-2xl w-full max-w-lg relative overflow-hidden"
+      [@fadeIn]
+    >
+      <!-- SPINNER -->
+      <div *ngIf="loading" class="absolute inset-0 bg-white bg-opacity-80 flex items-center justify-center z-10">
+        <div class="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-600 border-opacity-50"></div>
+      </div>
+  
+      <h2 class="text-3xl font-semibold mb-6 text-center text-gray-800">Iniciar sesión</h2>
+  
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" *ngIf="!loading"> 
+        <!-- 👈 el formulario se oculta si loading está activo -->
+        
+        <div class="mb-6">
+          <label class="block text-gray-800 text-sm font-medium mb-2" for="email">Correo electrónico</label>
+          <input formControlName="email" id="email" type="email"
+            class="shadow-lg appearance-none border rounded-xl w-full py-3 px-4 text-gray-800 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder="correo@example.com">
+          <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="text-red-500 text-xs mt-1">
+            Ingresa un correo válido
+          </div>
+        </div>
+  
+        <div class="mb-8">
+          <label class="block text-gray-800 text-sm font-medium mb-2" for="password">Contraseña</label>
+          <input formControlName="password" id="password" type="password"
+            class="shadow-lg appearance-none border rounded-xl w-full py-3 px-4 text-gray-800 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder="••••••">
+          <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="text-red-500 text-xs mt-1">
+            La contraseña debe tener mínimo 6 caracteres
+          </div>
+        </div>
+  
+        <div class="flex items-center justify-between">
+          <button type="submit"
+            class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl transition duration-300 ease-in-out w-full">
+            Ingresar
+          </button>
+        </div>
+  
+        <div class="mt-4 text-center">
+          <a href="#" class="text-blue-500 text-sm hover:underline">¿Olvidaste tu contraseña?</a>
+        </div>
+      </form>
+    </div>
+  </div>
+  
