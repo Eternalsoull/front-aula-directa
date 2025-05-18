@@ -1,0 +1,28 @@
+<div class="flex justify-between items-center mb-6">
+  <h2 class="text-2xl font-bold text-gray-800">Gestión de Usuarios</h2>
+  <button (click)="nuevoUsuario()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Nuevo Usuario</button>
+</div>
+
+<app-usuario-form *ngIf="selectedUser" [usuario]="selectedUser" (guardar)="guardarUsuario($event)"></app-usuario-form>
+
+<table class="w-full text-sm text-left text-gray-700 bg-white rounded shadow">
+  <thead class="text-xs uppercase bg-blue-600 text-white">
+    <tr>
+      <th class="px-4 py-2">Nombre</th>
+      <th class="px-4 py-2">Email</th>
+      <th class="px-4 py-2">Rol</th>
+      <th class="px-4 py-2">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of usuarios" class="border-b hover:bg-gray-50">
+      <td class="px-4 py-2">{{ user.name }}</td>
+      <td class="px-4 py-2">{{ user.email }}</td>
+      <td class="px-4 py-2">{{ user.role }}</td>
+      <td class="px-4 py-2 space-x-2">
+        <button (click)="editarUsuario(user)" class="text-blue-600 hover:underline">Editar</button>
+        <button (click)="eliminarUsuario(user.id!)" class="text-red-600 hover:underline">Eliminar</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

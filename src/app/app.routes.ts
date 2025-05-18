@@ -4,6 +4,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { ListarUsuariosComponent } from './pages/listar-usuarios/listar-usuarios.component';
+import { UsuariosComponent } from './pages/usuarios/usuarios.component';
 
 
 export const routes: Routes = [
@@ -32,7 +33,7 @@ export const routes: Routes = [
   },
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent },
-  { path: 'dashboard/usuarios', component: ListarUsuariosComponent },
+  { path: 'dashboard/usuarios', component: UsuariosComponent },
   // Aquí luego pondremos más rutas como dashboard, perfiles, etc.
 ];
 
