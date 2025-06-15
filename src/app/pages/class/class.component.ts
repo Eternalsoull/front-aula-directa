@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ClassService, Class } from '../../services/class.service';  // ✅ Importación corregida
+import { ClassService, Class } from '../../services/class.service';  
 
 @Component({
   selector: 'app-class',
