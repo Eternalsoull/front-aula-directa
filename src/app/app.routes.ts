@@ -3,38 +3,29 @@ import { LayoutComponent } from './pages/layout/layout.component';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { ListarUsuariosComponent } from './pages/listar-usuarios/listar-usuarios.component';
 import { UsuariosComponent } from './pages/usuarios/usuarios.component';
-
+import { LayoutMenuSidebarComponent } from './pages/layout-menu-sidebar/layout-menu-sidebar.component';
 
 export const routes: Routes = [
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+
   {
-    path: 'home',
+    path: '',
     component: LayoutComponent,
     children: [
+      { path: 'home', component: HomeComponent },
+      { path: 'login', component: LoginComponent },
+
       {
-        path: '',
-        component: HomeComponent
+        path: 'dashboard',
+        component: LayoutMenuSidebarComponent,
+        children: [
+          { path: '', component: DashboardComponent },
+          { path: 'usuarios', component: UsuariosComponent }
+        ]
       }
     ]
-    
-  },
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent },
-  {
-    path: 'login',
-    component: LayoutComponent,
-    children: [
-      {
-        path: '',
-        component: LoginComponent
-      }
-    ],
-  },
-  { path: 'login', component: LoginComponent },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'dashboard/usuarios', component: UsuariosComponent },
-  // Aquí luego pondremos más rutas como dashboard, perfiles, etc.
+  }
 ];
 
-
+  

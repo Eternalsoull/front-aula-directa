@@ -1,28 +1,56 @@
-<div class="flex justify-between items-center mb-6">
-  <h2 class="text-2xl font-bold text-gray-800">Gestión de Usuarios</h2>
-  <button (click)="nuevoUsuario()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Nuevo Usuario</button>
+<!-- Encabezado -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+  <h2 class="text-3xl font-bold text-gray-800">👥 Gestión de Usuarios</h2>
+  <button
+    (click)="nuevoUsuario()"
+    class="bg-blue-600 text-white font-medium px-5 py-2 rounded-lg shadow hover:bg-blue-700 transition-all duration-200"
+  >
+    + Nuevo Usuario
+  </button>
 </div>
 
-<app-usuario-form *ngIf="selectedUser" [usuario]="selectedUser" (guardar)="guardarUsuario($event)"></app-usuario-form>
+<!-- Formulario -->
+<app-usuario-form
+  *ngIf="selectedUser"
+  [usuario]="selectedUser"
+  (guardar)="guardarUsuario($event)"
+  class="mb-6"
+></app-usuario-form>
 
-<table class="w-full text-sm text-left text-gray-700 bg-white rounded shadow">
-  <thead class="text-xs uppercase bg-blue-600 text-white">
-    <tr>
-      <th class="px-4 py-2">Nombre</th>
-      <th class="px-4 py-2">Email</th>
-      <th class="px-4 py-2">Rol</th>
-      <th class="px-4 py-2">Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let user of usuarios" class="border-b hover:bg-gray-50">
-      <td class="px-4 py-2">{{ user.name }}</td>
-      <td class="px-4 py-2">{{ user.email }}</td>
-      <td class="px-4 py-2">{{ user.role }}</td>
-      <td class="px-4 py-2 space-x-2">
-        <button (click)="editarUsuario(user)" class="text-blue-600 hover:underline">Editar</button>
-        <button (click)="eliminarUsuario(user.id!)" class="text-red-600 hover:underline">Eliminar</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<!-- Tabla de usuarios -->
+<div class="overflow-x-auto bg-white rounded-xl shadow-lg">
+  <table class="min-w-full text-sm text-gray-800">
+    <thead class="bg-gradient-to-r from-blue-600 to-blue-500 text-white text-left text-xs uppercase tracking-wider">
+      <tr>
+        <th class="px-6 py-4">Nombre</th>
+        <th class="px-6 py-4">Email</th>
+        <th class="px-6 py-4">Rol</th>
+        <th class="px-6 py-4">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let user of usuarios"
+        class="border-b border-gray-200 hover:bg-blue-50 transition-colors"
+      >
+        <td class="px-6 py-4 font-medium">{{ user.name }}</td>
+        <td class="px-6 py-4">{{ user.email }}</td>
+        <td class="px-6 py-4 capitalize">{{ user.role }}</td>
+        <td class="px-6 py-4 space-x-2">
+          <button
+            (click)="editarUsuario(user)"
+            class="inline-flex items-center gap-1 text-blue-600 hover:text-blue-800 font-medium transition"
+          >
+            ✏️ Editar
+          </button>
+          <button
+            (click)="eliminarUsuario(user.id!)"
+            class="inline-flex items-center gap-1 text-red-600 hover:text-red-800 font-medium transition"
+          >
+            🗑️ Eliminar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

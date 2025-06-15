@@ -35,15 +35,16 @@ export class UsuariosComponent implements OnInit {
   }
 
   guardarUsuario(usuario: Usuario) {
-    if (usuario.id) {
-      this.usuariosService.update(usuario.id, usuario).subscribe(() => this.cargarUsuarios());
-    } else {
-      this.usuariosService.create(usuario).subscribe(() => this.cargarUsuarios());
-    }
-    this.selectedUser = null;
+  if (usuario.id) {
+    this.usuariosService.update(usuario.id, usuario).subscribe(() => this.cargarUsuarios());
+  } else {
+    this.usuariosService.create(usuario).subscribe(() => this.cargarUsuarios());
   }
+  this.selectedUser = null;
+}
+
 
   nuevoUsuario() {
-    this.selectedUser = { name: '', email: '', role: 'user' };
+    this.selectedUser = { name: '', email: '', role: 'user', password: '' };  
   }
 }

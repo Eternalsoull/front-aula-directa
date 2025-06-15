@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common'; // 👈 importante
-//importar lo del router-outlet
+import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 
 
@@ -13,5 +13,9 @@ import { Router } from '@angular/router';
   styleUrl: './layout.component.css'
 })
 export class LayoutComponent {
-    constructor(public router: Router) {}
+    constructor(public router: Router, public authService : AuthService ) {}
+
+    logout(): void {
+    this.authService.logout();
+  }
 }

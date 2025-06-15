@@ -1,18 +1,83 @@
-<div class="bg-white shadow rounded p-6 mb-6">
-  <div class="mb-4">
-    <label class="block text-sm font-medium text-gray-700">Nombre</label>
-    <input type="text" [(ngModel)]="usuario.name" class="mt-1 block w-full rounded border-gray-300 shadow-sm" />
+<form
+  [formGroup]="form"
+  (ngSubmit)="submitForm()"
+  class="bg-white shadow-lg rounded-2xl p-8 space-y-6 w-full max-w-xl mx-auto"
+>
+  <h2 class="text-2xl font-bold text-gray-800 mb-4">
+    {{ esNuevo ? 'Crear usuario' : 'Editar usuario' }}
+  </h2>
+
+  <!-- Nombre -->
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+    <input
+      type="text"
+      formControlName="name"
+      class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring focus:ring-blue-300"
+    />
+    <p *ngIf="form.get('name')?.touched && form.get('name')?.invalid" class="text-red-500 text-sm mt-1">
+      Nombre requerido
+    </p>
   </div>
-  <div class="mb-4">
-    <label class="block text-sm font-medium text-gray-700">Email</label>
-    <input type="email" [(ngModel)]="usuario.email" class="mt-1 block w-full rounded border-gray-300 shadow-sm" />
+
+  <!-- Email -->
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+    <input
+      type="email"
+      formControlName="email"
+      class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring focus:ring-blue-300"
+    />
+    <p *ngIf="form.get('email')?.touched && form.get('email')?.hasError('required')" class="text-red-500 text-sm mt-1">
+      Email requerido
+    </p>
+    <p *ngIf="form.get('email')?.touched && form.get('email')?.hasError('email')" class="text-red-500 text-sm mt-1">
+      Email inválido
+    </p>
   </div>
-  <div class="mb-4">
-    <label class="block text-sm font-medium text-gray-700">Rol</label>
-    <select [(ngModel)]="usuario.role" class="mt-1 block w-full rounded border-gray-300 shadow-sm">
+
+  <!-- Rol -->
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-1">Rol</label>
+    <select
+      formControlName="role"
+      class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring focus:ring-blue-300"
+    >
       <option value="admin">Admin</option>
-      <option value="user">Usuario</option>
+      <option value="profesor">Profesor</option>
+      <option value="acudiente">Acudiente</option>
+
     </select>
   </div>
-  <button (click)="guardarUsuario()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Guardar</button>
-</div>
+
+  <!-- Contraseña -->
+  <div *ngIf="esNuevo">
+    <label class="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
+    <input
+      type="password"
+      formControlName="password"
+      class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring focus:ring-blue-300"
+    />
+    <p *ngIf="form.get('password')?.touched && form.get('password')?.hasError('required')" class="text-red-500 text-sm mt-1">
+      Contraseña requerida
+    </p>
+  </div>
+
+  <!-- Botones -->
+  <div class="flex justify-end space-x-3 pt-4">
+    <button
+      type="button"
+      (click)="cancelarFormulario()"
+      class="bg-gray-100 text-gray-700 hover:bg-gray-200 px-4 py-2 rounded-lg border border-gray-300 transition-all"
+    >
+      Cancelar
+    </button>
+
+    <button
+      type="submit"
+      class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-all"
+    >
+      Guardar
+    </button>
+  </div>
+</form>
