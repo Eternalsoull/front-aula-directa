@@ -5,6 +5,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { UsuariosComponent } from './pages/usuarios/usuarios.component';
 import { LayoutMenuSidebarComponent } from './pages/layout-menu-sidebar/layout-menu-sidebar.component';
+import { ClassComponent } from './pages/class/class.component'; // 
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -21,11 +22,10 @@ export const routes: Routes = [
         component: LayoutMenuSidebarComponent,
         children: [
           { path: '', component: DashboardComponent },
-          { path: 'usuarios', component: UsuariosComponent }
+          { path: 'usuarios', component: UsuariosComponent },
+          { path: 'clases', component: ClassComponent } 
         ]
       }
     ]
   }
 ];
-
-  
