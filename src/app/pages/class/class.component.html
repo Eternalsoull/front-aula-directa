@@ -1,40 +1,12 @@
-<!-- Encabezado -->
-<div class="flex justify-between items-center mb-6">
-  <h2 class="text-2xl font-bold text-gray-800">📚 Gestión de Clases</h2>
-  <button (click)="nuevaClase()" class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700">
-    + Nueva Clase
-  </button>
-</div>
+<!-- Botón Nueva Clase -->
+<button (click)="nuevaClase()" class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700">
+  + Nueva Clase
+</button>
 
-<!-- Formulario (se muestra cuando selectedClass no es null) -->
+<!-- Formulario -->
 <app-class-form 
   *ngIf="selectedClass" 
   [classData]="selectedClass" 
-  (guardar)="guardarClase($event)" 
-  (cancelar)="selectedClass = null">
+  (guardar)="guardarClase($event)"  
+  (cancelar)="cancelarFormulario()">
 </app-class-form>
-
-<!-- Tabla de Clases -->
-<div class="overflow-x-auto bg-white rounded-xl shadow-lg">
-  <table class="min-w-full text-gray-800">
-    <thead class="bg-gradient-to-r from-green-600 to-green-500 text-white">
-      <tr>
-        <th class="px-6 py-4">Nombre</th>
-        <th class="px-6 py-4">Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let classItem of classes" class="border-b border-gray-200 hover:bg-green-50">
-        <td class="px-6 py-4 font-medium">{{ classItem.name }}</td>
-        <td class="px-6 py-4 space-x-2">
-          <button (click)="editarClase(classItem)" class="text-green-600 hover:text-green-800 font-medium">
-            ✏️ Editar
-          </button>
-          <button (click)="eliminarClase(classItem.id!)" class="text-red-600 hover:text-red-800 font-medium">
-            🗑️ Eliminar
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>

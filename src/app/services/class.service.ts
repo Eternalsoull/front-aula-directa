@@ -23,32 +23,25 @@ export class ClassService {
   }
 
   getAll(): Observable<Class[]> {
-    return this.http.get<Class[]>(this.apiUrl, {
-      headers: this.getAuthHeaders()
-    });
+    return this.http.get<Class[]>(this.apiUrl, { headers: this.getAuthHeaders() });
   }
 
   getById(id: number): Observable<Class> {
-    return this.http.get<Class>(`${this.apiUrl}/${id}`, {
-      headers: this.getAuthHeaders()
-    });
+    return this.http.get<Class>(`${this.apiUrl}/${id}`, { headers: this.getAuthHeaders() });
   }
 
   create(classData: Class): Observable<Class> {
+    console.log('📌 Enviando datos al backend:', classData);
     return this.http.post<Class>(this.apiUrl, classData, {
       headers: this.getAuthHeaders()
     });
   }
 
   update(id: number, classData: Class): Observable<void> {
-    return this.http.put<void>(`${this.apiUrl}/${id}`, classData, {
-      headers: this.getAuthHeaders()
-    });
+    return this.http.put<void>(`${this.apiUrl}/${id}`, classData, { headers: this.getAuthHeaders() });
   }
 
   delete(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`, {
-      headers: this.getAuthHeaders()
-    });
+    return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers: this.getAuthHeaders() });
   }
 }
