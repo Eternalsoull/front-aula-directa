@@ -1,7 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-
-
-
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -11,7 +8,6 @@ import { CommonModule } from '@angular/common';
   templateUrl: './listar-usuarios.component.html',
   styleUrls: ['./listar-usuarios.component.css']
 })
-
 export class ListarUsuariosComponent implements OnInit {
 
   usuarios = [
@@ -26,11 +22,19 @@ export class ListarUsuariosComponent implements OnInit {
 
   editarUsuario(usuario: any): void {
     console.log('Editar usuario:', usuario);
-    // Aquí podrías usar el router para ir a una vista de edición
+    
+  }
+
+  eliminarUsuario(usuario: any): void {
+    const confirmacion = confirm(`¿Estás seguro de que deseas eliminar a ${usuario.nombre}?`);
+    if (confirmacion) {
+      this.usuarios = this.usuarios.filter(u => u !== usuario);
+      console.log('Usuario eliminado:', usuario);
+    }
   }
 
   crearUsuario(): void {
     console.log('Crear nuevo usuario');
-    // Aquí podrías redirigir a un formulario vacío o abrir un modal
+    
   }
 }

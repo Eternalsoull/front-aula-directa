@@ -1,27 +1,27 @@
 <div class="usuarios-container">
-    <h2>Lista de Usuarios</h2>
-  
-    <button (click)="crearUsuario()">Crear Usuario</button>
-  
-    <table>
-      <thead>
-        <tr>
-          <th>Nombre</th>
-          <th>Email</th>
-          <th>Rol</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let usuario of usuarios">
-          <td>{{ usuario.nombre }}</td>
-          <td>{{ usuario.email }}</td>
-          <td>{{ usuario.rol }}</td>
-          <td>
-            <button (click)="editarUsuario(usuario)">Editar</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  
+  <h2>Gestión de Usuarios</h2>
+
+  <button class="nuevo-usuario-btn" (click)="crearUsuario()">Nuevo Usuario</button>
+
+  <table class="tabla-usuarios">
+    <thead>
+      <tr>
+        <th>NOMBRE</th>
+        <th>EMAIL</th>
+        <th>ROL</th>
+        <th>ACCIONES</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let usuario of usuarios">
+        <td>{{ usuario.nombre }}</td>
+        <td>{{ usuario.email }}</td>
+        <td>{{ usuario.rol }}</td>
+        <td>
+          <button class="editar-btn" (click)="editarUsuario(usuario)">Editar</button>
+          <button class="eliminar-btn" (click)="eliminarUsuario(usuario)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
