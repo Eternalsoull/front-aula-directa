@@ -3,9 +3,10 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 export interface Grade {
-  id?: number;
+  id: number; // ✅ obligatorio
   name: string;
 }
+
 
 @Injectable({
   providedIn: 'root'

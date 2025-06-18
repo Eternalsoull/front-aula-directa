@@ -37,4 +37,6 @@ export class ClassFormComponent {
     this.form.reset();
     this.cancelar.emit();  // ✅ Cancela el formulario correctamente
   }
+  esNuevo: boolean = true; // O false, según tu lógica
+
 }
