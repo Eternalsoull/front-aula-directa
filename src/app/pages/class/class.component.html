@@ -1,12 +1,50 @@
 <!-- Botón Nueva Clase -->
-<button (click)="nuevaClase()" class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700">
+<button
+  (click)="nuevaClase()"
+  class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700"
+>
   + Nueva Clase
 </button>
 
 <!-- Formulario -->
-<app-class-form 
-  *ngIf="selectedClass" 
-  [classData]="selectedClass" 
-  (guardar)="guardarClase($event)"  
-  (cancelar)="cancelarFormulario()">
-</app-class-form>
+<app-class-form
+  *ngIf="selectedClass"
+  [classData]="selectedClass"
+  (guardar)="guardarClase($event)"
+  (cancelar)="cancelarFormulario()"
+></app-class-form>
+
+<!-- Lista de clases -->
+<div *ngIf="!selectedClass && classes.length > 0" class="mt-8 max-w-xl mx-auto">
+  <h2 class="text-lg font-semibold text-gray-800 mb-4">📚 Clases Registradas</h2>
+  <ul class="divide-y divide-gray-200 bg-white rounded-lg shadow">
+    <li
+      *ngFor="let clase of classes"
+      class="flex justify-between items-center px-4 py-3"
+    >
+      <span class="text-gray-700">{{ clase.name }}</span>
+      <div class="space-x-2">
+        <button
+          (click)="editarClase(clase)"
+          class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600"
+        >
+          ✏️ Editar
+        </button>
+
+        <!-- ✅ Corrección aplicada aquí -->
+        <button
+          *ngIf="clase.id !== undefined"
+          (click)="eliminarClase(clase.id!)"
+          class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+        >
+          🗑️ Eliminar
+        </button>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Mensaje si no hay clases -->
+<p *ngIf="!selectedClass && classes.length === 0" class="text-gray-500 text-center mt-6">
+  Aún no hay clases registradas.
+</p>
