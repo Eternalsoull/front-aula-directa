@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 
-
 @Component({
   selector: 'app-dashboard',
   imports: [],
@@ -10,10 +9,12 @@ import { AuthService } from '../../services/auth.service';
 })
 export class DashboardComponent implements OnInit {
   userName: string | null = '';
+  userRole: string | null = '';
 
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.userName = this.authService.getUserData();
+    this.userName = this.authService.getUserName();   // 🔁 Cambiado
+    this.userRole = this.authService.getUserRole();
   }
 }

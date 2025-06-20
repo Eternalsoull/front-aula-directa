@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Router } from '@angular/router';
 import { fadeInAnimation } from './login.animations';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../services/auth.service'; // Asegúrate que exista
+import { AuthService } from '../../services/auth.service';
 import { HttpClientModule } from '@angular/common/http';
 
 @Component({
@@ -40,9 +40,7 @@ export class LoginComponent {
     this.errorMessage = '';
 
     this.authService.login(this.loginForm.value).subscribe({
-      next: (res) => {
-        localStorage.setItem('token', res.token);
-        this.authService.saveUserData(res.user); // Guardar el nombre del usuario
+      next: () => {
         this.router.navigate(['/dashboard']); // Ajusta la ruta según tu app
         this.loading = false;
       },
