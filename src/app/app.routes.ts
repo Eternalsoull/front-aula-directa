@@ -28,7 +28,8 @@ export const routes: Routes = [
           { path: 'usuarios', component: UsuariosComponent },
           { path: 'clases', component: ClassComponent },
           { path: 'clases/nueva', component: ClassFormComponent },
-          { path: 'grados', component: GradesComponent } // ✅ Nueva ruta para Grados
+          { path: 'grados', component: GradesComponent },
+          { path: 'grados/nuevo', component: GradesComponent }
         ]
       }
     ]

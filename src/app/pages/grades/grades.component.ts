@@ -1,44 +1,86 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { GradeService, Grade } from '../../services/grade.service';
-import { CommonModule } from '@angular/common'; 
-
+import { GradeFormComponent } from './grade-form/grade-form.component';
 
 @Component({
-  standalone: true, // 👈 esto indica que es standalone
   selector: 'app-grades',
-  imports: [CommonModule], // 👈 agrega CommonModule aquí
+  standalone: true,
+  imports: [CommonModule, GradeFormComponent],
   templateUrl: './grades.component.html',
   styleUrls: ['./grades.component.css']
 })
 export class GradesComponent implements OnInit {
-
-  grados: Grade[] = [];  // ✅ usa el tipo Grade
+  grados: Grade[] = [];
+  selectedGrade: Grade | undefined = undefined;
 
   constructor(private gradeService: GradeService) {}
 
-  ngOnInit() {
-    this.obtenerGrados();
+  ngOnInit(): void {
+    this.cargarGrados();
   }
 
-  obtenerGrados() {
-    this.gradeService.getGrades().subscribe((data) => {
-      this.grados = data;
+  cargarGrados(): void {
+    this.gradeService.getAll().subscribe({
+      next: (data) => {
+        this.grados = data;
+        console.log('📚 Grados cargados:', data);
+      },
+      error: (err) => {
+        console.error('❌ Error al obtener grados:', err);
+      }
     });
   }
 
-  abrirFormulario() {
-    // Aquí puedes redireccionar a un formulario o mostrar un modal
+  crearGrado(): void {
+    this.selectedGrade = { id: undefined, name: '' };
   }
 
-  editarGrado(grado: Grade) {
-    // Redireccionar al formulario con el ID del grado
-    // Ejemplo: this.router.navigate(['/dashboard/grados/editar', grado.id]);
-    console.log('Editar grado:', grado);
+  editarGrado(grado: Grade): void {
+    this.selectedGrade = { ...grado };
   }
 
-  eliminarGrado(id: number) {
-    this.gradeService.deleteGrade(id).subscribe(() => {
-      this.obtenerGrados(); // Recarga la lista
-    });
+  eliminarGrado(id: number): void {
+    if (confirm('¿Estás seguro de eliminar este grado?')) {
+      this.gradeService.delete(id).subscribe({
+        next: () => {
+          console.log('🗑 Grado eliminado');
+          this.cargarGrados();
+        },
+        error: (err) => {
+          console.error('❌ Error al eliminar el grado:', err);
+        }
+      });
+    }
+  }
+
+  guardarGrado(gradeData: Grade): void {
+    if (!gradeData.id) {
+      this.gradeService.create(gradeData).subscribe({
+        next: () => {
+          console.log('✅ Grado creado');
+          this.cargarGrados();
+          this.selectedGrade = undefined;
+        },
+        error: (err) => {
+          console.error('❌ Error al crear el grado:', err);
+        }
+      });
+    } else {
+      this.gradeService.update(gradeData.id, gradeData).subscribe({
+        next: () => {
+          console.log('✅ Grado actualizado');
+          this.cargarGrados();
+          this.selectedGrade = undefined;
+        },
+        error: (err) => {
+          console.error('❌ Error al actualizar el grado:', err);
+        }
+      });
+    }
+  }
+
+  cancelarFormulario(): void {
+    this.selectedGrade = undefined;
   }
 }
