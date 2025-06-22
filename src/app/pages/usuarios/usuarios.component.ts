@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { UsuariosService, Usuario } from '../../services/usuarios.service';
 import { UsuarioFormComponent } from './usuario-form.component';
-import { CommonModule } from '@angular/common';
-
 
 @Component({
   selector: 'app-usuarios',
@@ -12,7 +11,7 @@ import { CommonModule } from '@angular/common';
 })
 export class UsuariosComponent implements OnInit {
   usuarios: Usuario[] = [];
-  selectedUser: Usuario | null = null;
+  selectedUser: Usuario | undefined = undefined;
 
   constructor(private usuariosService: UsuariosService) {}
 
@@ -26,25 +25,35 @@ export class UsuariosComponent implements OnInit {
     });
   }
 
-  editarUsuario(user: Usuario) {
+  nuevoUsuario(): void {
+    this.selectedUser = { id: undefined, name: '', email: '', role: 'user', password: '' };
+  }
+
+  editarUsuario(user: Usuario): void {
     this.selectedUser = { ...user };
   }
 
-  eliminarUsuario(id: number) {
-    this.usuariosService.delete(id).subscribe(() => this.cargarUsuarios());
+  eliminarUsuario(id: number): void {
+    if (confirm('¿Estás seguro de eliminar este usuario?')) {
+      this.usuariosService.delete(id).subscribe(() => this.cargarUsuarios());
+    }
   }
 
-  guardarUsuario(usuario: Usuario) {
-  if (usuario.id) {
-    this.usuariosService.update(usuario.id, usuario).subscribe(() => this.cargarUsuarios());
-  } else {
-    this.usuariosService.create(usuario).subscribe(() => this.cargarUsuarios());
+  guardarUsuario(usuario: Usuario): void {
+    if (!usuario.id) {
+      this.usuariosService.create(usuario).subscribe(() => {
+        this.cargarUsuarios();
+        this.selectedUser = undefined;
+      });
+    } else {
+      this.usuariosService.update(usuario.id, usuario).subscribe(() => {
+        this.cargarUsuarios();
+        this.selectedUser = undefined;
+      });
+    }
   }
-  this.selectedUser = null;
-}
 
-
-  nuevoUsuario() {
-    this.selectedUser = { name: '', email: '', role: 'user', password: '' };  
+  cancelarFormulario(): void {
+    this.selectedUser = undefined;
   }
 }
