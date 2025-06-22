@@ -6,7 +6,9 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { UsuariosComponent } from './pages/usuarios/usuarios.component';
 import { LayoutMenuSidebarComponent } from './pages/layout-menu-sidebar/layout-menu-sidebar.component';
 import { ClassComponent } from './pages/class/class.component';
-import { ClassFormComponent } from './pages/class/class-form.component';import { GradesComponent } from './pages/grades/grades.component';
+import { ClassFormComponent } from './pages/class/class-form.component';
+import { GradesComponent } from './pages/grades/grades.component';
+import { StudentsComponent } from './pages/students/students.component';
 
 
 
@@ -29,7 +31,9 @@ export const routes: Routes = [
           { path: 'clases', component: ClassComponent },
           { path: 'clases/nueva', component: ClassFormComponent },
           { path: 'grados', component: GradesComponent },
-          { path: 'grados/nuevo', component: GradesComponent }
+          { path: 'grados/nuevo', component: GradesComponent },
+          { path: 'estudiantes', component: StudentsComponent },
+
         ]
       }
     ]
