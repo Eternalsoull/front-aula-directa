@@ -1,0 +1,24 @@
+<p>teacher works!</p>
+<div class="min-h-screen flex">
+  <!-- Sidebar simple -->
+  <aside class="w-64 bg-gradient-to-b from-blue-600 to-purple-600 text-white p-6">
+    <h2 class="text-2xl font-bold mb-6">Panel Docente</h2>
+
+    <nav class="flex flex-col gap-3">
+      <button (click)="seleccionarVista('tareas')" class="bg-white/10 hover:bg-white hover:text-blue-700 px-4 py-2 rounded-lg transition">Asignar Tareas</button>
+      <button (click)="seleccionarVista('asistencia')" class="bg-white/10 hover:bg-white hover:text-blue-700 px-4 py-2 rounded-lg transition">Asistencia</button>
+      <button (click)="seleccionarVista('calificaciones')" class="bg-white/10 hover:bg-white hover:text-blue-700 px-4 py-2 rounded-lg transition">Calificaciones</button>
+      <button (click)="seleccionarVista('chat')" class="bg-white/10 hover:bg-white hover:text-blue-700 px-4 py-2 rounded-lg transition">Chat con Acudientes</button>
+    </nav>
+  </aside>
+
+  <!-- Vista central -->
+  <main class="flex-1 p-10">
+    <ng-container [ngSwitch]="activeView">
+      <app-asignar-tareas *ngSwitchCase="'tareas'"></app-asignar-tareas>
+      <app-asistencia *ngSwitchCase="'asistencia'"></app-asistencia>
+      <app-calificar *ngSwitchCase="'calificaciones'"></app-calificar>
+      <app-chat *ngSwitchCase="'chat'"></app-chat>
+    </ng-container>
+  </main>
+</div>

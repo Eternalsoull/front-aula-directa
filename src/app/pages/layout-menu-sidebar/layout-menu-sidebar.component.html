@@ -2,13 +2,14 @@
   <!-- Sidebar -->
   <aside class="w-64 bg-gradient-to-b from-blue-600 to-purple-600 text-white p-6 shadow-2xl rounded-tr-3xl">
     <h2 class="text-3xl font-bold mb-10 tracking-wide">
-      {{ userRole === 'acudiente' ? 'Panel del Acudiente' : 'Admin Panel' }}
+      {{ userRole === 'parent' ? 'Panel del Acudiente' :
+         userRole === 'teacher' ? 'Panel del Profesor' : 'Admin Panel' }}
     </h2>
 
     <ng-container *ngIf="userRole as role">
       <nav class="flex flex-col gap-3">
         <!-- Menú para ACUDIENTE -->
-        <ng-container *ngIf="role === 'acudiente'; else adminMenu">
+        <ng-container *ngIf="role === 'parent'; else noParent">
           <a [routerLink]="'/dashboard/tareas'" class="px-4 py-2 rounded-lg transition bg-white/10 hover:bg-white hover:text-blue-700 font-medium">
             Tareas
           </a>
@@ -17,26 +18,44 @@
           </a>
         </ng-container>
 
-        <!-- Menú para ADMIN / PROFESOR -->
-        <ng-template #adminMenu>
-          <a [routerLink]="'/dashboard'" class="px-4 py-2 rounded-lg transition bg-white/10 hover:bg-white hover:text-blue-700 font-medium">
-            Inicio
-          </a>
-          <a [routerLink]="'/dashboard/usuarios'" class="px-4 py-2 rounded-lg transition bg-white/10 hover:bg-white hover:text-blue-700 font-medium">
-            Usuarios
-          </a>
-          <a [routerLink]="'/dashboard/clases'" class="px-4 py-2 rounded-lg transition bg-white/10 hover:bg-white hover:text-blue-700 font-medium">
-            Clases
-          </a>
-          <a [routerLink]="'/dashboard/grados'" class="px-4 py-2 rounded-lg transition bg-white/10 hover:bg-white hover:text-blue-700 font-medium">
-            Grados
-          </a>
-          <a [routerLink]="'/dashboard/estudiantes'" class="px-4 py-2 rounded-lg transition bg-white/10 hover:bg-white hover:text-blue-700 font-medium">
-            Estudiantes
-          </a>
-          <a [routerLink]="'/dashboard/clases-grados'" class="px-4 py-2 rounded-lg transition bg-white/10 hover:bg-white hover:text-blue-700 font-medium">
-            Clases - Grados
-          </a>
+        <!-- Menú para PROFESOR -->
+        <ng-template #noParent>
+          <ng-container *ngIf="role === 'teacher'; else adminMenu">
+            <a [routerLink]="'/dashboard/tareas'" class="px-4 py-2 rounded-lg transition bg-white/10 hover:bg-white hover:text-blue-700 font-medium">
+              Asignar Tareas
+            </a>
+            <a [routerLink]="'/dashboard/calificaciones'" class="px-4 py-2 rounded-lg transition bg-white/10 hover:bg-white hover:text-blue-700 font-medium">
+              Calificaciones
+            </a>
+            <a [routerLink]="'/dashboard/asistencia'" class="px-4 py-2 rounded-lg transition bg-white/10 hover:bg-white hover:text-blue-700 font-medium">
+              Asistencia
+            </a>
+            <a [routerLink]="'/dashboard/chat'" class="px-4 py-2 rounded-lg transition bg-white/10 hover:bg-white hover:text-blue-700 font-medium">
+              Chat con Acudientes
+            </a>
+          </ng-container>
+
+          <!-- Menú para ADMIN -->
+          <ng-template #adminMenu>
+            <a [routerLink]="'/dashboard'" class="px-4 py-2 rounded-lg transition bg-white/10 hover:bg-white hover:text-blue-700 font-medium">
+              Inicio
+            </a>
+            <a [routerLink]="'/dashboard/usuarios'" class="px-4 py-2 rounded-lg transition bg-white/10 hover:bg-white hover:text-blue-700 font-medium">
+              Usuarios
+            </a>
+            <a [routerLink]="'/dashboard/clases'" class="px-4 py-2 rounded-lg transition bg-white/10 hover:bg-white hover:text-blue-700 font-medium">
+              Clases
+            </a>
+            <a [routerLink]="'/dashboard/grados'" class="px-4 py-2 rounded-lg transition bg-white/10 hover:bg-white hover:text-blue-700 font-medium">
+              Grados
+            </a>
+            <a [routerLink]="'/dashboard/estudiantes'" class="px-4 py-2 rounded-lg transition bg-white/10 hover:bg-white hover:text-blue-700 font-medium">
+              Estudiantes
+            </a>
+            <a [routerLink]="'/dashboard/clases-grados'" class="px-4 py-2 rounded-lg transition bg-white/10 hover:bg-white hover:text-blue-700 font-medium">
+              Clases - Grados
+            </a>
+          </ng-template>
         </ng-template>
       </nav>
     </ng-container>

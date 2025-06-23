@@ -1,0 +1,21 @@
+<h2>Asignar nueva tarea</h2>
+
+<form [formGroup]="tareaForm" (ngSubmit)="asignarTarea()">
+  <label for="grupo">Grupo:</label>
+  <select id="grupo" formControlName="class_grade_id">
+    <option *ngFor="let grupo of grupos" [value]="grupo.id">
+      {{ grupo.class.nombre }} - {{ grupo.grade.nombre }}
+    </option>
+  </select>
+
+  <label for="title">Título:</label>
+  <input id="title" formControlName="title" type="text" />
+
+  <label for="description">Descripción:</label>
+  <textarea id="description" formControlName="description"></textarea>
+
+  <label for="due_date">Fecha de entrega:</label>
+  <input id="due_date" formControlName="due_date" type="date" />
+
+  <button type="submit" [disabled]="tareaForm.invalid">Asignar tarea</button>
+</form>

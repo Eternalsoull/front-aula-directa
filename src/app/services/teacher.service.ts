@@ -17,9 +17,11 @@ export interface Teacher {
 })
 export class TeacherService {
   private apiUrl = 'http://localhost:3000/api/teachers';
+  private baseProfesorUrl = 'http://localhost:3000/api/profesor';
 
   constructor(private http: HttpClient) {}
 
+  // CRUD original
   getAll(): Observable<Teacher[]> {
     return this.http.get<Teacher[]>(this.apiUrl);
   }
@@ -38,5 +40,30 @@ export class TeacherService {
 
   delete(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`);
+  }
+
+  // 👇 Nuevos métodos para módulo docente
+
+  getGruposPorProfesor(profesorId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseProfesorUrl}/mis-grupos/${profesorId}`);
+  }
+
+  getEstudiantesPorGrupo(classGradeId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseProfesorUrl}/classgrade/${classGradeId}/estudiantes`);
+  }
+
+  registrarAsistencia(payload: {
+    classgrade_id: number;
+    date: string;
+    asistencias: { student_id: number; present: boolean }[];
+  }): Observable<any> {
+    return this.http.post(`${this.baseProfesorUrl}/asistencia`, payload);
+  }
+
+  enviarMensajeAlAcudiente(payload: {
+    student_id: number;
+    content: string;
+  }): Observable<any> {
+    return this.http.post(`${this.baseProfesorUrl}/mensaje`, payload);
   }
 }

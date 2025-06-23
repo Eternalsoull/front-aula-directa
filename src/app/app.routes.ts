@@ -11,8 +11,11 @@ import { GradesComponent } from './pages/grades/grades.component';
 import { StudentsComponent } from './pages/students/students.component';
 import { ClassGradesComponent } from './pages/class-grades/class-grades.component';
 
+// 👇 Importamos componentes compartidos
+import { TareasComponent } from './pages/tareas/tareas.component';
+import { CalificacionesComponent } from './pages/calificaciones/calificaciones.component';
 
-
+// 👇 Importamos componentes standalone dinámicamente
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
 
@@ -36,6 +39,25 @@ export const routes: Routes = [
           { path: 'estudiantes', component: StudentsComponent },
           { path: 'clases-grados', component: ClassGradesComponent },
 
+          // 👇 Rutas para ACUDIENTE y PROFESOR (comparten componentes)
+          { path: 'tareas', component: TareasComponent },
+          { path: 'calificaciones', component: CalificacionesComponent },
+
+          // 👇 Rutas exclusivas para PROFESOR (standalone)
+          {
+            path: 'asistencia',
+            loadComponent: () =>
+              import('./pages/teacher/asistencia/asistencia.component').then(
+                m => m.AsistenciaComponent
+              )
+          },
+          {
+            path: 'chat',
+            loadComponent: () =>
+              import('./pages/teacher/chat/chat.component').then(
+                m => m.ChatComponent
+              )
+          }
         ]
       }
     ]

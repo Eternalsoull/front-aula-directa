@@ -1,1 +1,74 @@
-<p>calificaciones works!</p>
+<section class="bg-white p-6 shadow rounded-lg">
+  <h2 class="text-xl font-bold mb-4">Calificaciones</h2>
+
+  <!-- Panel para ACUDIENTE -->
+  <ng-container *ngIf="userRole === 'parent'">
+    <div *ngFor="let cal of calificaciones" class="border-b pb-4 mb-4">
+      <h3 class="text-lg font-semibold text-green-700">{{ cal.tarea.title }}</h3>
+      <p class="text-sm">{{ cal.tarea.classGrade.class.nombre }} — {{ cal.tarea.classGrade.grade.nombre }}</p>
+      <p class="text-sm text-gray-500">Entrega: {{ cal.tarea.due_date | date }}</p>
+      <p class="mt-2 font-bold">
+        Nota:
+        <span [ngClass]="{ 'text-green-600': cal.nota >= 3, 'text-red-500': cal.nota < 3 }">
+          {{ cal.nota }}
+        </span>
+      </p>
+      <p *ngIf="cal.comentario" class="text-sm italic text-gray-600 mt-1">"{{ cal.comentario }}"</p>
+    </div>
+  </ng-container>
+
+  <!-- Panel para PROFESOR -->
+  <ng-container *ngIf="userRole === 'teacher'">
+    <div class="flex flex-wrap gap-3 mb-6">
+      <button
+        *ngFor="let grupo of grupos"
+        (click)="selectedGroupId = grupo.id; cargarCalificacionesDelGrupo()"
+        class="px-4 py-2 bg-purple-100 text-purple-700 rounded hover:bg-purple-200"
+        [ngClass]="{ 'bg-purple-700 text-white': selectedGroupId === grupo.id }"
+      >
+        {{ grupo.class.nombre }} - {{ grupo.grade.nombre }}
+      </button>
+    </div>
+
+    <form *ngIf="calificaciones.length > 0" (ngSubmit)="guardarNotas()">
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr class="border-b font-semibold">
+            <th class="py-2">Estudiante</th>
+            <th class="py-2">Nota</th>
+            <th class="py-2">Comentario</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let cal of calificaciones" class="border-b hover:bg-gray-50">
+            <td class="py-2">{{ cal.nombre_estudiante }}</td>
+            <td class="py-2">
+              <input
+                type="number"
+                min="0"
+                max="5"
+                step="0.1"
+                [(ngModel)]="cal.nota"
+                name="nota{{ cal.student_id }}"
+                class="w-20 border px-2 py-1 rounded"
+                required
+              />
+            </td>
+            <td class="py-2">
+              <input
+                type="text"
+                [(ngModel)]="cal.comentario"
+                name="comentario{{ cal.student_id }}"
+                class="w-full border px-2 py-1 rounded"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <button type="submit" class="mt-4 bg-indigo-600 text-white px-5 py-2 rounded hover:bg-indigo-700">
+        Guardar Calificaciones
+      </button>
+    </form>
+  </ng-container>
+</section>
