@@ -1,0 +1,29 @@
+<form [formGroup]="form" (ngSubmit)="submitForm()" class="bg-white p-6 rounded shadow space-y-4">
+  <h2 class="text-xl font-semibold">{{ relation.id ? 'Editar' : 'Crear' }} Relación</h2>
+
+  <div>
+    <label>Clase</label>
+    <select formControlName="class_id" class="w-full border px-2 py-1 rounded">
+      <option *ngFor="let cls of classes" [value]="cls.id">{{ cls.name }}</option>
+    </select>
+  </div>
+
+  <div>
+    <label>Grado</label>
+    <select formControlName="grade_id" class="w-full border px-2 py-1 rounded">
+      <option *ngFor="let grd of grades" [value]="grd.id">{{ grd.name }}</option>
+    </select>
+  </div>
+
+  <div>
+    <label>Profesor</label>
+    <select formControlName="teacher_id" class="w-full border px-2 py-1 rounded">
+      <option *ngFor="let t of teachers" [value]="t.id">{{ t.user?.name || 'Profesor #' + t.id }}</option>
+    </select>
+  </div>
+
+  <div class="flex justify-end space-x-2">
+    <button type="button" (click)="cancelarFormulario()" class="px-4 py-2 bg-gray-200 rounded">Cancelar</button>
+    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Guardar</button>
+  </div>
+</form>

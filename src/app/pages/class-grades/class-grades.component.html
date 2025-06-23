@@ -1,0 +1,36 @@
+<div class="flex justify-between items-center mb-6">
+  <h2 class="text-2xl font-bold">📚 Gestión Clase-Grado</h2>
+  <button (click)="nuevaRelacion()" class="bg-blue-600 text-white px-4 py-2 rounded">+ Nueva Relación</button>
+</div>
+
+<app-class-grades-form
+  *ngIf="selectedRelation"
+  [relation]="selectedRelation"
+  [classes]="classes"
+  [grades]="grades"
+  [teachers]="teachers"
+  (guardar)="guardarRelacion($event)"
+  (cancelar)="cancelarFormulario()"
+></app-class-grades-form>
+
+<table *ngIf="!selectedRelation" class="w-full bg-white shadow rounded">
+  <thead class="bg-blue-600 text-white">
+    <tr>
+      <th class="p-3">Clase</th>
+      <th class="p-3">Grado</th>
+      <th class="p-3">Profesor</th>
+      <th class="p-3">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let rel of relations" class="border-b">
+      <td class="p-3">{{ rel.class?.name }}</td>
+      <td class="p-3">{{ rel.grade?.name }}</td>
+      <td class="p-3">{{ rel.teacher?.user?.name }}</td>
+      <td class="p-3 space-x-2">
+        <button (click)="editarRelacion(rel)" class="text-blue-600">✏️</button>
+        <button (click)="eliminarRelacion(rel.id!)" class="text-red-600">🗑️</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

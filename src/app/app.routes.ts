@@ -9,6 +9,7 @@ import { ClassComponent } from './pages/class/class.component';
 import { ClassFormComponent } from './pages/class/class-form.component';
 import { GradesComponent } from './pages/grades/grades.component';
 import { StudentsComponent } from './pages/students/students.component';
+import { ClassGradesComponent } from './pages/class-grades/class-grades.component';
 
 
 
@@ -33,6 +34,7 @@ export const routes: Routes = [
           { path: 'grados', component: GradesComponent },
           { path: 'grados/nuevo', component: GradesComponent },
           { path: 'estudiantes', component: StudentsComponent },
+          { path: 'clases-grados', component: ClassGradesComponent },
 
         ]
       }
