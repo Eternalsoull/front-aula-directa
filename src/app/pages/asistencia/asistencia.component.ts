@@ -1,79 +1,77 @@
 import { Component, OnInit } from '@angular/core';
-import { TeacherService } from '../../services/teacher.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
-interface Estudiante {
-  id: number;
-  nombre: string;
-  presente: boolean;
-}
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { TaskService } from '../../services/task.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-asistencia',
   standalone: true,
+  templateUrl: './asistencia.component.html',
   imports: [CommonModule, FormsModule],
-  templateUrl: './asistencia.component.html'
 })
 export class AsistenciaComponent implements OnInit {
   grupos: any[] = [];
-  estudiantes: Estudiante[] = [];
-  selectedGroupId: number = 0;
-  fecha: string = new Date().toISOString().slice(0, 10);
-  mensaje: string = '';
+  estudiantes: any[] = [];
+  selectedGroupId: number | null = null;
+  fechaHoy: string = new Date().toISOString().slice(0, 10);
 
-  constructor(private teacherService: TeacherService) {}
+  constructor(
+    private http: HttpClient,
+    private taskService: TaskService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
-    this.teacherService.getGruposPorProfesor().subscribe({
-      next: res => {
-        this.grupos = res;
-        this.mensaje = this.grupos.length ? '' : '⚠️ No tienes grupos asignados.';
-      },
-      error: err => {
-        console.error('❌ Error al cargar grupos:', err);
-        this.mensaje = '❌ Error al cargar los grupos del profesor.';
-      }
+    this.taskService.getGruposAsignados().subscribe({
+      next: (grupos) => this.grupos = grupos,
+      error: (err) => console.error('❌ Error al obtener grupos:', err)
     });
   }
 
-  cargarEstudiantes(): void {
+  seleccionarGrupo(): void {
     if (!this.selectedGroupId) return;
 
-    this.teacherService.getEstudiantesPorGrupo(this.selectedGroupId).subscribe({
-      next: (res) => {
-        this.estudiantes = res.map(est => ({
-          id: est.student?.id || est.id,
-          nombre: est.student?.nombre || 'Sin nombre',
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    this.http.get<any[]>(
+      `http://localhost:3000/api/students/por-grado/${this.selectedGroupId}`,
+      { headers }
+    ).subscribe({
+      next: (estudiantes) => {
+        this.estudiantes = estudiantes.map(e => ({
+          student_id: e.id,
+          nombre_estudiante: e.name,
           presente: true
         }));
-        this.mensaje = '';
       },
-      error: (err) => {
-        console.error('❌ Error al cargar estudiantes:', err);
-        this.mensaje = '❌ No se pudieron obtener los estudiantes del grupo.';
-      }
+      error: err => console.error('❌ Error al obtener estudiantes del grupo:', err)
     });
   }
 
   guardarAsistencia(): void {
-    if (!this.selectedGroupId || !this.estudiantes.length) return;
+    if (!this.selectedGroupId || this.estudiantes.length === 0) {
+      alert('Debes seleccionar un grupo');
+      return;
+    }
 
-    const registros = this.estudiantes.map(est => ({
-      student_id: est.id,
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    const payload = this.estudiantes.map(e => ({
+      student_id: e.student_id,
       class_grade_id: this.selectedGroupId,
-      fecha: this.fecha,
-      presente: est.presente
+      date: this.fechaHoy,
+      present: e.presente
     }));
 
-    this.teacherService.registrarAsistencia(registros).subscribe({
-      next: () => {
-        this.mensaje = '✅ Asistencia guardada con éxito.';
-        setTimeout(() => this.mensaje = '', 3000);
-      },
+    this.http.post(`http://localhost:3000/api/asistencia/lote`, payload, { headers }).subscribe({
+      next: () => alert('✅ Asistencia registrada correctamente'),
       error: (err) => {
-        console.error('❌ Error al registrar asistencia:', err);
-        this.mensaje = '❌ No se pudo guardar la asistencia.';
+        console.error('❌ Error al guardar asistencia:', err);
+        alert('Error al guardar asistencia');
       }
     });
   }

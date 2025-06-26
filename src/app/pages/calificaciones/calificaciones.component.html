@@ -16,6 +16,18 @@
     </select>
   </div>
 
+  <!-- Selector de tarea -->
+  <div class="mb-6" *ngIf="tareas.length > 0">
+    <label class="block text-sm font-medium text-gray-700 mb-2">Selecciona una tarea:</label>
+    <select [(ngModel)]="selectedTaskId"
+            class="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-50 focus:ring focus:ring-blue-600">
+      <option [ngValue]="null" disabled>-- Selecciona una tarea --</option>
+      <option *ngFor="let tarea of tareas" [ngValue]="tarea.id">
+        {{ tarea.title }}
+      </option>
+    </select>
+  </div>
+
   <!-- Tabla de estudiantes para calificar -->
   <div *ngIf="estudiantes.length > 0" class="overflow-x-auto">
     <table class="min-w-full text-sm text-left border border-gray-200">

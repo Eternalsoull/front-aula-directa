@@ -45,8 +45,11 @@ export class TeacherService {
   // 👇 Nuevos métodos para módulo docente
 
   getGruposPorProfesor(profesorId: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseProfesorUrl}/mis-grupos/${profesorId}`);
+return this.http.get<any[]>(`http://localhost:3000/api/teachers/mis-grupos`, {
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem('token') || ''}`
   }
+});  }
 
   getEstudiantesPorGrupo(classGradeId: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseProfesorUrl}/classgrade/${classGradeId}/estudiantes`);
