@@ -1,0 +1,34 @@
+<div class="flex h-screen overflow-hidden">
+  <!-- Panel lateral -->
+  <aside class="w-64 bg-blue-800 text-white p-6">
+    <h2 class="text-xl font-bold mb-6">Panel Docente</h2>
+    <ul class="space-y-4">
+      <li>
+        <a
+          routerLink="tareas"
+          routerLinkActive="font-bold underline text-white"
+          class="hover:text-blue-200 block"
+        >🧾 Tareas</a>
+      </li>
+      <li>
+        <a
+          routerLink="asistencia"
+          routerLinkActive="font-bold underline text-white"
+          class="hover:text-blue-200 block"
+        >✅ Asistencia</a>
+      </li>
+      <li>
+        <a
+          routerLink="calificaciones"
+          routerLinkActive="font-bold underline text-white"
+          class="hover:text-blue-200 block"
+        >🏅 Calificaciones</a>
+      </li>
+    </ul>
+  </aside>
+
+  <!-- Panel de contenido dinámico -->
+  <main class="flex-1 overflow-y-auto p-6 bg-gray-50">
+    <router-outlet></router-outlet>
+  </main>
+</div>

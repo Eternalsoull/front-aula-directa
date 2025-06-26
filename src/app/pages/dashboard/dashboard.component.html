@@ -1,39 +1,13 @@
 <div class="min-h-screen flex bg-gradient-to-tr from-white via-gray-100 to-white">
-  <!-- Main content -->
   <main class="flex-1 p-10">
-    <h1 class="text-4xl font-semibold mb-4 text-gray-800">Bienvenido, {{ userName }}</h1>
+    <h1 class="text-4xl font-semibold mb-6 text-gray-800">Bienvenido, {{ userName }}</h1>
 
-    <!-- Vista para PROFESOR -->
-    <ng-container *ngIf="userRole === 'profesor'; else vistaGeneral">
-      <p class="mb-6 text-gray-600 text-lg">Accede a tus herramientas docentes:</p>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-
-        <a [routerLink]="'/dashboard/tareas'" class="block p-6 bg-white rounded-xl shadow hover:shadow-md transition">
-          <h2 class="text-xl font-bold mb-1 text-blue-700">Asignar Tareas</h2>
-          <p class="text-gray-600">Gestiona las tareas de tu clase</p>
-        </a>
-
-        <a [routerLink]="'/dashboard/calificaciones'" class="block p-6 bg-white rounded-xl shadow hover:shadow-md transition">
-          <h2 class="text-xl font-bold mb-1 text-blue-700">Calificaciones</h2>
-          <p class="text-gray-600">Registra y consulta notas</p>
-        </a>
-
-        <a [routerLink]="'/dashboard/asistencia'" class="block p-6 bg-white rounded-xl shadow hover:shadow-md transition">
-          <h2 class="text-xl font-bold mb-1 text-blue-700">Asistencia</h2>
-          <p class="text-gray-600">Marca y revisa asistencia</p>
-        </a>
-
-        <a [routerLink]="'/dashboard/chat'" class="block p-6 bg-white rounded-xl shadow hover:shadow-md transition">
-          <h2 class="text-xl font-bold mb-1 text-blue-700">Chat con Acudientes</h2>
-          <p class="text-gray-600">Comunícate con los padres</p>
-        </a>
-
-      </div>
+    <ng-container *ngIf="userRole === 'teacher'; else vistaGeneral">
+      <p class="text-gray-600 text-lg">Selecciona una opción del menú lateral izquierdo para comenzar.</p>
     </ng-container>
 
-    <!-- Vista para otros roles (acudiente, admin, etc.) -->
     <ng-template #vistaGeneral>
-      <p class="text-gray-600 text-lg">Selecciona una opción del menú para comenzar.</p>
+      <p class="text-gray-600 text-lg">Tu rol no tiene acceso directo. Usa el menú lateral para navegar.</p>
     </ng-template>
   </main>
 </div>

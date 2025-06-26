@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+
 import { LayoutComponent } from './pages/layout/layout.component';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
@@ -10,12 +11,8 @@ import { ClassFormComponent } from './pages/class/class-form.component';
 import { GradesComponent } from './pages/grades/grades.component';
 import { StudentsComponent } from './pages/students/students.component';
 import { ClassGradesComponent } from './pages/class-grades/class-grades.component';
-
-// 👇 Importamos componentes compartidos
-import { TareasComponent } from './pages/tareas/tareas.component';
 import { CalificacionesComponent } from './pages/calificaciones/calificaciones.component';
 
-// 👇 Importamos componentes standalone dinámicamente
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
 
@@ -38,25 +35,33 @@ export const routes: Routes = [
           { path: 'grados/nuevo', component: GradesComponent },
           { path: 'estudiantes', component: StudentsComponent },
           { path: 'clases-grados', component: ClassGradesComponent },
-
-          // 👇 Rutas para ACUDIENTE y PROFESOR (comparten componentes)
-          { path: 'tareas', component: TareasComponent },
           { path: 'calificaciones', component: CalificacionesComponent },
 
-          // 👇 Rutas exclusivas para PROFESOR (standalone)
+          {
+            path: 'tareas',
+            children: [
+              {
+                path: 'asignar',
+                loadComponent: () =>
+                  import('./pages/tareas/asignar-tarea.component').then(m => m.AsignarTareaComponent)
+              },
+              {
+                path: 'hijos',
+                loadComponent: () =>
+                  import('./pages/tareas/tareas-acudiente.component').then(m => m.TareasAcudienteComponent)
+              }
+            ]
+          },
+
           {
             path: 'asistencia',
             loadComponent: () =>
-              import('./pages/teacher/asistencia/asistencia.component').then(
-                m => m.AsistenciaComponent
-              )
+              import('./pages/teacher/asistencia/asistencia.component').then(m => m.AsistenciaComponent)
           },
           {
             path: 'chat',
             loadComponent: () =>
-              import('./pages/teacher/chat/chat.component').then(
-                m => m.ChatComponent
-              )
+              import('./pages/teacher/chat/chat.component').then(m => m.ChatComponent)
           }
         ]
       }

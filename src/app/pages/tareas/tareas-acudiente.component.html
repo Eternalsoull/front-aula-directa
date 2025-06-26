@@ -1,0 +1,15 @@
+<h2 class="text-xl font-semibold mb-4">📚 Tareas de tus hijos</h2>
+
+<div *ngIf="tareas.length > 0; else sinTareas">
+  <ul class="divide-y divide-gray-200">
+    <li *ngFor="let tarea of tareas" class="py-3">
+      <h4 class="font-medium text-blue-700">{{ tarea.title }}</h4>
+      <p class="text-gray-600 text-sm">{{ tarea.description }}</p>
+      <p class="text-sm text-gray-500">Vence: {{ tarea.due_date | date:'shortDate' }}</p>
+    </li>
+  </ul>
+</div>
+
+<ng-template #sinTareas>
+  <p class="text-gray-500 text-center mt-8">Aún no hay tareas asignadas.</p>
+</ng-template>

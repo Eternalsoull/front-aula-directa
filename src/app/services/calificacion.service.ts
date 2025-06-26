@@ -1,46 +1,68 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Calificacion {
-  id?: number;
+  student_id: number;
   nota: number;
-  comentario: string;
-  student_id?: number;
-  nombre_estudiante?: string;
-  tarea?: {
-    title: string;
-    due_date: string;
-    classGrade: {
-      class: { nombre: string };
-      grade: { nombre: string };
-    };
-  };
+  comentario?: string;
+  // tarea_id?: number; ← puedes agregarlo si lo usas en otra vista
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CalificacionService {
   private apiUrl = 'http://localhost:3000/api/calificaciones';
 
   constructor(private http: HttpClient) {}
 
-  getCalificacionesPorPadre(padreId: number): Observable<Calificacion[]> {
-    return this.http.get<Calificacion[]>(`${this.apiUrl}/padre/${padreId}`);
+  private getHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
   }
 
-  getGruposPorProfesor(profesorId: number): Observable<any[]> {
-    return this.http.get<any[]>(`/api/profesor/mis-grupos/${profesorId}`);
+  // 🔹 Grupos asignados al docente (filtrados por backend)
+  getGruposPorProfesor(teacherId: number): Observable<any[]> {
+    return this.http.get<any[]>(`http://localhost:3000/api/tareas/grupos-asignados`, {
+      headers: this.getHeaders(),
+    });
   }
 
+  // 🔹 Estudiantes del grupo según su grado
+  getEstudiantesPorGrupo(classGradeId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/grupos/${classGradeId}/estudiantes`, {
+      headers: this.getHeaders(),
+    });
+  }
+
+  // 🔹 Calificaciones ya registradas por grupo (opcional)
   getCalificacionesPorGrupo(classGradeId: number): Observable<any[]> {
-    return this.http.get<any[]>(`/api/profesor/classgrade/${classGradeId}/calificaciones`);
+    return this.http.get<any[]>(`${this.apiUrl}/grupos/${classGradeId}`, {
+      headers: this.getHeaders(),
+    });
   }
 
-  guardarNotas(payload: {
-    calificaciones: { student_id: number; score: number; comment: string }[];
-  }): Observable<any> {
-    return this.http.post('/api/profesor/notas', payload);
+  // 🔹 Calificaciones de los hijos (para rol padre)
+  getCalificacionesPorPadre(padreId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/padre/${padreId}`, {
+      headers: this.getHeaders(),
+    });
+  }
+
+  // 🔹 Enviar múltiples calificaciones (lote)
+  guardarNotas(payload: { calificaciones: Calificacion[] }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/notas-lote`, payload, {
+      headers: this.getHeaders(),
+    });
+  }
+
+  // 🔹 Enviar una sola calificación (opcional)
+  guardarUna(calificacion: Calificacion): Observable<any> {
+    return this.http.post(`${this.apiUrl}/notas`, calificacion, {
+      headers: this.getHeaders(),
+    });
   }
 }

@@ -1,0 +1,70 @@
+<h2 class="text-2xl font-bold mb-4">Asignar Nueva Tarea</h2>
+
+<p class="mb-4">Seleccione un grupo para asignar la tarea:</p>
+
+<!-- Botones de selección de grupo -->
+<div class="grid md:grid-cols-2 gap-3 mb-6">
+  <button
+    *ngFor="let grupo of grupos"
+    (click)="seleccionarGrupo(grupo.id)"
+    class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+    [ngClass]="{
+      'bg-blue-700': tarea.class_grade_id === grupo.id
+    }"
+  >
+    {{ grupo.class?.nombre }} - {{ grupo.grade?.nombre }}
+  </button>
+</div>
+
+<!-- Formulario visible solo si hay un grupo seleccionado -->
+<div *ngIf="tarea.class_grade_id">
+  <form (ngSubmit)="guardarTarea()" class="space-y-4">
+    <div>
+      <label class="block font-medium">Título:</label>
+      <input
+        type="text"
+        [(ngModel)]="tarea.title"
+        name="title"
+        class="w-full border rounded p-2"
+        required
+      />
+    </div>
+
+    <div>
+      <label class="block font-medium">Fecha máxima de entrega:</label>
+      <input
+        type="date"
+        [(ngModel)]="tarea.due_date"
+        name="due_date"
+        class="w-full border rounded p-2"
+        required
+      />
+    </div>
+
+    <div>
+      <label class="block font-medium">Descripción:</label>
+      <textarea
+        [(ngModel)]="tarea.description"
+        name="description"
+        class="w-full border rounded p-2"
+        rows="4"
+      ></textarea>
+    </div>
+
+    <button
+      type="submit"
+      [disabled]="loading"
+      class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+    >
+      Guardar tarea
+    </button>
+  </form>
+
+  <!-- Mensaje de confirmación o error -->
+  <p class="mt-4 text-sm text-center" *ngIf="mensaje">{{ mensaje }}</p>
+</div>
+
+<!-- Mensaje si no hay grupos disponibles -->
+<div *ngIf="!grupos.length && !loading" class="text-gray-600">
+  ⚠️ No tienes grupos asignados actualmente.
+</div>

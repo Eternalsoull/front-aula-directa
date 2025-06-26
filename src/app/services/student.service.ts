@@ -1,4 +1,3 @@
-// student.service.ts
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -8,6 +7,14 @@ export interface Student {
   name: string;
   grade_id: number;
   parent_id: number;
+  parent?: {
+    id: number;
+    user: {
+      id: number;
+      name: string;
+      email: string;
+    };
+  };
 }
 
 @Injectable({
@@ -27,6 +34,12 @@ export class StudentService {
 
   getAll(): Observable<Student[]> {
     return this.http.get<Student[]>(this.apiUrl, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  getByGrade(gradeId: number): Observable<Student[]> {
+    return this.http.get<Student[]>(`${this.apiUrl}/por-grado/${gradeId}`, {
       headers: this.getAuthHeaders(),
     });
   }
